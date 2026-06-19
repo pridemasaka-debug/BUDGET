@@ -1,14 +1,16 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinTrack • Smart Budgeting for Students &amp; Workers</title>
+    <title>FinTrack • Smart Budgeting</title>
     
     <!-- PWA Meta Tags -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#10b981">
-    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon.jpg">
     
     <!-- External Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,231 +20,67 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Poppins:wght@500;600&amp;display=swap');
         
-        :root {
-            --primary: #10b981;
-        }
-        
-        body {
-            font-family: 'Inter', system_ui, sans-serif;
-        }
-        
-        .font-display {
-            font-family: 'Poppins', 'Inter', system_ui, sans-serif;
-            font-weight: 600;
-        }
-
-        .finance-gradient {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-
-        .section-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .modern-shadow {
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
-        }
-
-        .dark .modern-shadow {
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.2), 0 4px 6px -4px rgb(0 0 0 / 0.2);
-        }
-
-        .tab-active {
-            border-bottom: 3px solid #10b981;
-            color: #10b981;
-            font-weight: 600;
-        }
-
-        .metric-card {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .metric-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-        }
-
-        .money {
-            font-variant-numeric: tabular-nums;
-        }
-
-        .cashbook-table {
-            font-size: 0.925rem;
-        }
-
-        .cashbook-table th {
-            font-weight: 600;
-            color: #374151;
-        }
-
-        .dark .cashbook-table th {
-            color: #d1d5db;
-        }
-
-        .transaction-row {
-            transition: background-color 0.1s ease;
-        }
-
-        .transaction-row:hover {
-            background-color: #f8fafc;
-        }
-
-        .dark .transaction-row:hover {
-            background-color: #1f2937;
-        }
-
-        .nav-tab {
-            position: relative;
-            padding-bottom: 12px;
-            transition: all 0.2s ease;
-        }
-
-        .nav-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(to right, #10b981, #059669);
-            border-radius: 3px 3px 0 0;
-        }
-
-        .result-highlight {
-            animation: fadeInScale 0.4s ease forwards;
-        }
-
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .category-bar {
-            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
-        }
-
-        .fintrack-logo {
-            background: linear-gradient(90deg, #10b981, #34d399);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
-            letter-spacing: -.025em;
-        }
-
-        .professional-input {
-            transition: all 0.2s ease;
-        }
-
-        .professional-input:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
-            border-color: #10b981;
-        }
-
-        .dashboard-value {
-            font-size: 1.5rem;
-            line-height: 1.1;
-            font-weight: 700;
-        }
-
-        .mini-progress {
-            height: 6px;
-            background: linear-gradient(90deg, #10b981, #34d399);
-            transition: width 0.5s ease;
-        }
-
-        .suggestion-card {
-            transition: all 0.2s ease;
-        }
-
-        .suggestion-card:hover {
-            transform: translateX(4px);
-            box-shadow: 0 10px 15px -3px rgb(16 185 129 / 0.1);
-        }
-
-        .empty-state {
-            background-image: url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill-rule=%22evenodd%22%3E%3Cpath fill=%22%23e5e7eb%22 fill-opacity=%220.08%22 d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V8h-2v16h-4v2h4v4h2v-4h4v-2h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 6v-4H4v4H0v2h4v4h2V8h4V6H6z%22/%3E%3C/g%3E%3C/svg%27');
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: 80px;
-        }
-
-        .dark .empty-state {
-            background-image: url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill-rule=%22evenodd%22%3E%3Cpath fill=%22%234b5563%22 fill-opacity=%220.15%22 d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V8h-2v16h-4v2h4v4h2v-4h4v-2h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 6v-4H4v4H0v2h4v4h2V8h4V6H6z%22/%3E%3C/g%3E%3C/svg%27');
-        }
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .fintrack-logo { background: linear-gradient(90deg, #10b981, #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
+        .section-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .modern-shadow { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05); }
+        .dark .modern-shadow { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.2), 0 4px 6px -4px rgb(0 0 0 / 0.2); }
+        .nav-tab.active { border-bottom: 3px solid #10b981; color: #10b981; font-weight: 600; }
+        .metric-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .metric-card:hover { transform: translateY(-2px); }
+        .money { font-variant-numeric: tabular-nums; }
+        .professional-input { transition: all 0.2s ease; }
+        .professional-input:focus { outline: none; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15); border-color: #10b981; }
+        .result-highlight { animation: fadeInScale 0.4s ease forwards; }
+        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
     <!-- Header -->
     <header class="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 sticky top-0 z-50">
-        <div class="max-w-screen-2xl mx-auto">
-            <div class="px-6 py-4 flex items-center justify-between">
-                <div class="flex items-center gap-x-3">
-                    <!-- Logo -->
-                    <div class="flex items-center gap-x-2.5">
-                        <div class="w-11 h-11 finance-gradient rounded-2xl flex items-center justify-center shadow-inner">
-                            <i class="fa-solid fa-chart-line text-white text-3xl"></i>
-                        </div>
-                        <div>
-                            <span class="fintrack-logo text-3xl tracking-tighter">FinTrack</span>
-                            <span class="text-[10px] font-mono tracking-[3px] text-emerald-600 dark:text-emerald-500 block -mt-1">ZMW</span>
-                        </div>
+        <div class="max-w-screen-2xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div class="flex items-center gap-x-2.5">
+                    <div class="w-11 h-11 bg-emerald-600 rounded-2xl flex items-center justify-center">
+                        <i class="fa-solid fa-chart-line text-white text-3xl"></i>
                     </div>
-                    <div class="hidden sm:block">
-                        <span class="px-3 py-1 text-xs font-semibold bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-full">For Students &amp; Workers</span>
+                    <div>
+                        <span class="fintrack-logo text-3xl tracking-tighter">FinTrack</span>
+                        <span class="text-[10px] font-mono tracking-[3px] text-emerald-600 block -mt-1">ZMW</span>
                     </div>
                 </div>
+            </div>
 
-                <div class="flex items-center gap-x-2">
-                    <!-- Quick Calculator -->
-                    <button onclick="showCalculatorModal()"
-                            class="flex items-center gap-x-2 px-4 py-2 text-sm font-medium bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-2xl transition-colors">
-                        <i class="fa-solid fa-calculator text-emerald-600"></i>
-                        <span class="hidden sm:inline font-medium">Quick Calc</span>
-                    </button>
+            <div class="flex items-center gap-x-2">
+                <button onclick="showCalculatorModal()" class="flex items-center gap-x-2 px-4 py-2 text-sm font-medium bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-2xl transition-colors">
+                    <i class="fa-solid fa-calculator text-emerald-600"></i>
+                    <span class="hidden sm:inline font-medium">Quick Calc</span>
+                </button>
 
-                    <!-- Dark Mode Toggle -->
-                    <button id="theme-toggle"
-                            class="w-10 h-10 flex items-center justify-center text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-2xl transition-colors"
-                            onclick="toggleDarkMode()">
-                        <i class="fa-solid fa-moon text-lg" id="theme-icon"></i>
-                    </button>
-                </div>
+                <button onclick="toggleDarkMode()" class="w-10 h-10 flex items-center justify-center text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-2xl transition-colors">
+                    <i class="fa-solid fa-moon text-lg" id="theme-icon"></i>
+                </button>
             </div>
         </div>
     </header>
 
     <!-- Dashboard Summary -->
     <div class="max-w-screen-2xl mx-auto px-6 pt-6">
-        <div class="mb-2 flex items-end justify-between">
-            <div>
-                <h1 class="text-2xl font-semibold tracking-tight">Your Financial Overview</h1>
-                <p class="text-sm text-zinc-500 dark:text-zinc-400">Real-time snapshot of your money</p>
-            </div>
-            <div class="text-xs px-3 py-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-full text-zinc-500 flex items-center gap-x-1.5">
-                <i class="fa-solid fa-sync fa-sm"></i>
-                <span>Auto-saved to device</span>
-            </div>
+        <div class="mb-2">
+            <h1 class="text-2xl font-semibold tracking-tight">Your Financial Overview</h1>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400">Real-time snapshot of your money</p>
         </div>
-
-        <div id="dashboard-summary" 
-             class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            <!-- Populated by JS -->
-        </div>
+        <div id="dashboard-summary" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3"></div>
     </div>
 
     <!-- Tab Navigation -->
     <div class="max-w-screen-2xl mx-auto px-6 pt-6">
         <div class="flex bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl p-1 shadow-sm w-full max-w-md mx-auto md:mx-0">
-            <button onclick="switchTab('expense')"
-                    id="tab-expense"
-                    class="nav-tab flex-1 flex items-center justify-center gap-x-2 px-6 py-3 text-sm font-semibold rounded-3xl transition-all active:bg-emerald-50 dark:active:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400">
+            <button onclick="switchTab('expense')" id="tab-expense" class="nav-tab flex-1 flex items-center justify-center gap-x-2 px-6 py-3 text-sm font-semibold rounded-3xl transition-all active:bg-emerald-50 dark:active:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400">
                 <i class="fa-solid fa-wallet"></i>
                 <span>Expense Tracker</span>
             </button>
-            <button onclick="switchTab('goal')"
-                    id="tab-goal"
-                    class="nav-tab flex-1 flex items-center justify-center gap-x-2 px-6 py-3 text-sm font-semibold rounded-3xl transition-all hover:bg-zinc-50 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
+            <button onclick="switchTab('goal')" id="tab-goal" class="nav-tab flex-1 flex items-center justify-center gap-x-2 px-6 py-3 text-sm font-semibold rounded-3xl transition-all hover:bg-zinc-50 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
                 <i class="fa-solid fa-bullseye"></i>
                 <span>Goal Planner</span>
             </button>
@@ -252,17 +90,13 @@
     <!-- EXPENSE TRACKER VIEW -->
     <div id="expense-view" class="max-w-screen-2xl mx-auto px-6 pt-6 pb-12 view">
         <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
-            
-            <!-- Left Column: Balance + Add Expense -->
             <div class="xl:col-span-5 space-y-6">
-                
                 <!-- Current Balance -->
                 <div class="section-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl p-6 modern-shadow">
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">CURRENT AVAILABLE BALANCE</p>
-                            <div id="current-balance" 
-                                 class="dashboard-value money text-emerald-600 dark:text-emerald-400 mt-1">ZMW 0.00</div>
+                            <div id="current-balance" class="text-3xl font-bold money text-emerald-600 dark:text-emerald-400 mt-1">ZMW 0.00</div>
                         </div>
                         <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-2xl flex items-center justify-center">
                             <i class="fa-solid fa-wallet text-emerald-600 dark:text-emerald-400 text-3xl"></i>
@@ -273,17 +107,11 @@
                         <div class="flex-1">
                             <label class="block text-xs font-medium text-zinc-500 mb-1.5">Set New Balance</label>
                             <div class="flex">
-                                <input id="new-balance-input" type="number" step="0.01" 
-                                       class="professional-input flex-1 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 text-sm rounded-2xl px-4 py-2.5 focus:border-emerald-500"
-                                       placeholder="0.00">
-                                <button onclick="updateStartingBalance()"
-                                        class="ml-2 px-5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 transition-colors text-white text-sm font-semibold rounded-2xl">
-                                    Update
-                                </button>
+                                <input id="new-balance-input" type="number" step="0.01" class="professional-input flex-1 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 text-sm rounded-2xl px-4 py-2.5" placeholder="0.00">
+                                <button onclick="updateStartingBalance()" class="ml-2 px-5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 transition-colors text-white text-sm font-semibold rounded-2xl">Update</button>
                             </div>
                         </div>
                     </div>
-                    <p class="text-[10px] text-zinc-400 mt-2">This is your starting point. All expenses will subtract from it.</p>
                 </div>
 
                 <!-- Add Expense Form -->
@@ -297,31 +125,26 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-medium text-zinc-500 mb-1">Date</label>
-                                <input id="expense-date" type="date" value="" 
-                                       class="professional-input w-full bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 text-sm rounded-2xl px-4 py-2.5">
+                                <input id="expense-date" type="date" class="professional-input w-full bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 text-sm rounded-2xl px-4 py-2.5">
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-zinc-500 mb-1">Category <span class="text-emerald-600">*</span></label>
-                                <input id="expense-category" type="text" placeholder="e.g. Groceries, Bus fare"
-                                       class="professional-input w-full bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 text-sm rounded-2xl px-4 py-2.5">
+                                <label class="block text-xs font-medium text-zinc-500 mb-1">Category</label>
+                                <input id="expense-category" type="text" placeholder="e.g. Groceries, Bus fare" class="professional-input w-full bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 text-sm rounded-2xl px-4 py-2.5">
                             </div>
                         </div>
                         
                         <div>
                             <label class="block text-xs font-medium text-zinc-500 mb-1">Description</label>
-                            <input id="expense-description" type="text" placeholder="What did you spend on?"
-                                   class="professional-input w-full bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 text-sm rounded-2xl px-4 py-2.5">
+                            <input id="expense-description" type="text" placeholder="What did you spend on?" class="professional-input w-full bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 text-sm rounded-2xl px-4 py-2.5">
                         </div>
                         
                         <div class="grid grid-cols-5 gap-4 items-end">
                             <div class="col-span-3">
                                 <label class="block text-xs font-medium text-zinc-500 mb-1">Amount (ZMW)</label>
-                                <input id="expense-amount" type="number" step="0.01" placeholder="0.00"
-                                       class="professional-input w-full bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 text-sm rounded-2xl px-4 py-2.5">
+                                <input id="expense-amount" type="number" step="0.01" placeholder="0.00" class="professional-input w-full bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 text-sm rounded-2xl px-4 py-2.5">
                             </div>
                             <div class="col-span-2">
-                                <button onclick="addExpense()"
-                                        class="w-full h-[46px] bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 transition-all text-white font-semibold rounded-2xl flex items-center justify-center gap-x-2 text-sm">
+                                <button onclick="addExpense()" class="w-full h-[46px] bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 transition-all text-white font-semibold rounded-2xl flex items-center justify-center gap-x-2 text-sm">
                                     <i class="fa-solid fa-plus"></i>
                                     <span>Add Expense</span>
                                 </button>
@@ -338,8 +161,7 @@
                         <i class="fa-solid fa-book text-emerald-600"></i>
                         <span>Cash Book / Transaction History</span>
                     </h3>
-                    <button onclick="clearAllExpenses()" 
-                            class="text-xs flex items-center gap-x-1.5 text-red-500 hover:text-red-600 px-3 py-1 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors">
+                    <button onclick="clearAllExpenses()" class="text-xs flex items-center gap-x-1.5 text-red-500 hover:text-red-600 px-3 py-1 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors">
                         <i class="fa-solid fa-trash-can fa-sm"></i>
                         <span class="hidden sm:inline">Clear All</span>
                     </button>
@@ -347,8 +169,8 @@
                 
                 <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl overflow-hidden modern-shadow">
                     <div class="overflow-x-auto max-h-[420px]">
-                        <table class="cashbook-table w-full min-w-[720px]">
-                            <thead class="bg-zinc-100 dark:bg-zinc-800 sticky top-0 z-10">
+                        <table class="w-full min-w-[720px] text-sm">
+                            <thead class="bg-zinc-100 dark:bg-zinc-800 sticky top-0">
                                 <tr>
                                     <th class="text-left px-5 py-3.5 font-semibold text-xs tracking-wider">DATE</th>
                                     <th class="text-left px-5 py-3.5 font-semibold text-xs tracking-wider">CATEGORY</th>
@@ -358,12 +180,10 @@
                                     <th class="w-10"></th>
                                 </tr>
                             </thead>
-                            <tbody id="cashbook-tbody" class="divide-y divide-zinc-100 dark:divide-zinc-800 text-sm">
-                                <!-- Populated dynamically by JS -->
-                            </tbody>
+                            <tbody id="cashbook-tbody" class="divide-y divide-zinc-100 dark:divide-zinc-800"></tbody>
                         </table>
                     </div>
-                    <div id="empty-cashbook" class="hidden px-6 py-8 text-center empty-state">
+                    <div id="empty-cashbook" class="hidden px-6 py-8 text-center">
                         <p class="text-sm text-zinc-400">No transactions yet. Add your first expense above.</p>
                     </div>
                 </div>
@@ -378,8 +198,6 @@
             </h3>
             
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                
-                <!-- Key Numbers -->
                 <div class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-3">
                     <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl p-5 modern-shadow">
                         <div class="flex justify-between items-start">
@@ -387,7 +205,6 @@
                                 <p class="text-xs text-zinc-500">TOTAL SPENT</p>
                                 <div id="analytics-total-spent" class="text-2xl font-bold money text-red-600 dark:text-red-400">ZMW 0.00</div>
                             </div>
-                            <i class="fa-solid fa-arrow-trend-down text-red-400 text-xl mt-1"></i>
                         </div>
                     </div>
                     <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl p-5 modern-shadow">
@@ -396,7 +213,6 @@
                                 <p class="text-xs text-zinc-500">TRANSACTIONS</p>
                                 <div id="analytics-count" class="text-2xl font-bold money">0</div>
                             </div>
-                            <i class="fa-solid fa-receipt text-emerald-400 text-xl mt-1"></i>
                         </div>
                     </div>
                     <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl p-5 modern-shadow">
@@ -409,17 +225,11 @@
                     </div>
                 </div>
 
-                <!-- Category Breakdown -->
                 <div class="lg:col-span-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl p-6 modern-shadow">
-                    <h4 class="font-semibold text-sm mb-4 flex items-center gap-x-2">
-                        <span>Spending by Category</span>
-                    </h4>
-                    <div id="category-breakdown" class="space-y-3 text-sm max-h-[210px] overflow-auto pr-2">
-                        <!-- Populated by JS -->
-                    </div>
+                    <h4 class="font-semibold text-sm mb-4">Spending by Category</h4>
+                    <div id="category-breakdown" class="space-y-3 text-sm max-h-[210px] overflow-auto pr-2"></div>
                 </div>
 
-                <!-- Pie Chart -->
                 <div class="lg:col-span-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl p-6 modern-shadow flex flex-col">
                     <h4 class="font-semibold text-sm mb-3">Visual Distribution</h4>
                     <div class="flex-1 flex items-center justify-center min-h-[210px]">
@@ -432,10 +242,7 @@
 
     <!-- GOAL PLANNER VIEW -->
     <div id="goal-view" class="max-w-screen-2xl mx-auto px-6 pt-6 pb-12 view hidden">
-        
         <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
-            
-            <!-- Goal Details -->
             <div class="xl:col-span-12">
                 <div class="section-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl p-6 modern-shadow">
                     <div class="flex items-center justify-between mb-5">
@@ -443,36 +250,30 @@
                             <i class="fa-solid fa-bullseye text-emerald-600"></i>
                             <span>Create Your Financial Goal</span>
                         </h3>
-                        <span class="text-xs px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-full font-medium">Step 1 of 3</span>
                     </div>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         <div>
                             <label class="block text-xs font-semibold text-zinc-500 mb-1.5">GOAL NAME</label>
-                            <input id="goal-name" type="text" placeholder="e.g. Buy a Laptop, School Fees 2026"
-                                   class="professional-input w-full bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 rounded-2xl px-4 py-2.5 text-sm">
+                            <input id="goal-name" type="text" placeholder="e.g. Buy a Laptop, School Fees 2026" class="professional-input w-full bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 rounded-2xl px-4 py-2.5 text-sm">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-zinc-500 mb-1.5">TARGET AMOUNT</label>
                             <div class="flex">
-                                <select id="goal-currency" onchange="updateGoalCurrencyDisplay()"
-                                        class="professional-input bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 rounded-l-2xl px-3 text-sm font-medium">
+                                <select id="goal-currency" class="professional-input bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 rounded-l-2xl px-3 text-sm font-medium">
                                     <option value="ZMW">ZMW</option>
                                     <option value="USD">USD</option>
                                 </select>
-                                <input id="goal-target" type="number" step="0.01" placeholder="15000"
-                                       class="professional-input flex-1 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 border-l-0 rounded-r-2xl px-4 py-2.5 text-sm">
+                                <input id="goal-target" type="number" step="0.01" placeholder="15000" class="professional-input flex-1 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 border-l-0 rounded-r-2xl px-4 py-2.5 text-sm">
                             </div>
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-zinc-500 mb-1.5">TARGET DATE (OPTIONAL)</label>
-                            <input id="goal-target-date" type="date" 
-                                   class="professional-input w-full bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 rounded-2xl px-4 py-2.5 text-sm">
+                            <input id="goal-target-date" type="date" class="professional-input w-full bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 rounded-2xl px-4 py-2.5 text-sm">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-zinc-500 mb-1.5">CURRENT SAVINGS (OPTIONAL)</label>
-                            <input id="goal-current-saved" type="number" step="0.01" placeholder="0.00"
-                                   class="professional-input w-full bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 rounded-2xl px-4 py-2.5 text-sm">
+                            <input id="goal-current-saved" type="number" step="0.01" placeholder="0.00" class="professional-input w-full bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 rounded-2xl px-4 py-2.5 text-sm">
                         </div>
                     </div>
                 </div>
@@ -486,1240 +287,9 @@
                             <i class="fa-solid fa-hand-holding-usd text-emerald-600"></i>
                             <span>Income Sources</span>
                         </h3>
-                        <span id="total-monthly-income" 
-                              class="px-3 py-1 text-xs font-bold bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 rounded-2xl">Monthly: ZMW 0.00</span>
+                        <span id="total-monthly-income" class="px-3 py-1 text-xs font-bold bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 rounded-2xl">Monthly: ZMW 0.00</span>
                     </div>
                     
-                    <!-- Add Income Form -->
                     <div class="grid grid-cols-12 gap-3 mb-4">
                         <div class="col-span-12 sm:col-span-5">
-                            <input id="income-name" type="text" placeholder="Income name (e.g. Part-time job)"
-                                   class="professional-input w-full text-sm bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 rounded-2xl px-4 py-2">
-                        </div>
-                        <div class="col-span-5 sm:col-span-3">
-                            <input id="income-amount" type="number" step="0.01" placeholder="Amount"
-                                   class="professional-input w-full text-sm bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 rounded-2xl px-4 py-2">
-                        </div>
-                        <div class="col-span-4 sm:col-span-2">
-                            <select id="income-frequency"
-                                    class="professional-input w-full text-sm bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 rounded-2xl px-3 py-2">
-                                <option value="Monthly">Monthly</option>
-                                <option value="Weekly">Weekly</option>
-                                <option value="Daily">Daily</option>
-                                <option value="Yearly">Yearly</option>
-                            </select>
-                        </div>
-                        <div class="col-span-3 sm:col-span-2">
-                            <button onclick="addIncomeSource()"
-                                    class="w-full h-10 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white text-sm font-semibold rounded-2xl flex items-center justify-center gap-x-1 transition-colors">
-                                <i class="fa-solid fa-plus fa-sm"></i>
-                                <span class="hidden sm:inline">Add</span>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Income List -->
-                    <div id="income-list" class="flex-1 space-y-2 overflow-auto text-sm min-h-[120px]">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Monthly Expenses -->
-            <div class="xl:col-span-6">
-                <div class="section-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl p-6 modern-shadow h-full flex flex-col">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="font-semibold flex items-center gap-x-2">
-                            <i class="fa-solid fa-receipt text-orange-500"></i>
-                            <span>Monthly Living Expenses</span>
-                        </h3>
-                        <span id="total-monthly-expenses" 
-                              class="px-3 py-1 text-xs font-bold bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300 rounded-2xl">Monthly: ZMW 0.00</span>
-                    </div>
-                    
-                    <!-- Add Expense Item -->
-                    <div class="grid grid-cols-12 gap-3 mb-4">
-                        <div class="col-span-7">
-                            <input id="expense-item-name" type="text" placeholder="Expense name (e.g. Food, Data, Rent)"
-                                   class="professional-input w-full text-sm bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 rounded-2xl px-4 py-2">
-                        </div>
-                        <div class="col-span-3">
-                            <input id="expense-item-amount" type="number" step="0.01" placeholder="Amount"
-                                   class="professional-input w-full text-sm bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 rounded-2xl px-4 py-2">
-                        </div>
-                        <div class="col-span-2">
-                            <button onclick="addExpenseItem()"
-                                    class="w-full h-10 bg-orange-600 hover:bg-orange-700 active:bg-orange-800 text-white text-sm font-semibold rounded-2xl flex items-center justify-center gap-x-1 transition-colors">
-                                <i class="fa-solid fa-plus fa-sm"></i>
-                                <span class="hidden sm:inline">Add</span>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Expense Items List -->
-                    <div id="expense-items-list" class="flex-1 space-y-2 overflow-auto text-sm min-h-[120px]">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Calculate Button -->
-        <div class="mt-6 flex justify-center">
-            <button onclick="calculateGoalPlan()"
-                    class="group px-10 py-4 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 active:scale-[0.985] transition-all text-white font-bold text-lg rounded-3xl shadow-lg shadow-emerald-600/30 flex items-center gap-x-3">
-                <i class="fa-solid fa-magic group-active:rotate-12 transition-transform"></i>
-                <span>CALCULATE MY SAVINGS PLAN</span>
-            </button>
-        </div>
-
-        <!-- Results Section -->
-        <div id="goal-results" class="hidden mt-8">
-            <div class="section-card bg-white dark:bg-zinc-900 border border-emerald-200 dark:border-emerald-800 rounded-3xl p-7 modern-shadow result-highlight">
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <h3 class="font-bold text-xl flex items-center gap-x-2">
-                            <i class="fa-solid fa-chart-line text-emerald-600"></i> 
-                            <span>Your Personalized Savings Plan</span>
-                        </h3>
-                        <p id="goal-name-display" class="text-emerald-600 font-medium"></p>
-                    </div>
-                    <button onclick="resetGoalPlan()" 
-                            class="text-xs px-4 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-2xl flex items-center gap-x-1 text-zinc-500">
-                        <i class="fa-solid fa-redo"></i>
-                        <span>Reset</span>
-                    </button>
-                </div>
-
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-7">
-                    <div class="bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl p-4">
-                        <p class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">MONTHLY SAVINGS POSSIBLE</p>
-                        <div id="result-monthly-savings" class="text-3xl font-bold text-emerald-700 dark:text-emerald-300 money mt-1">ZMW 0.00</div>
-                    </div>
-                    <div class="bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl p-4">
-                        <p class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">MONTHS TO REACH GOAL</p>
-                        <div id="result-months-needed" class="text-3xl font-bold text-emerald-700 dark:text-emerald-300 mt-1">—</div>
-                    </div>
-                    <div class="bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl p-4">
-                        <p class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">ESTIMATED COMPLETION</p>
-                        <div id="result-completion-date" class="text-xl font-bold text-emerald-700 dark:text-emerald-300 mt-1">—</div>
-                    </div>
-                    <div class="bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl p-4">
-                        <p class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">REMAINING TO TARGET</p>
-                        <div id="result-remaining-target" class="text-2xl font-bold text-emerald-700 dark:text-emerald-300 money mt-1">ZMW 0.00</div>
-                    </div>
-                </div>
-
-                <!-- Progress -->
-                <div class="mb-6">
-                    <div class="flex justify-between text-sm mb-1.5 px-0.5">
-                        <span class="font-medium">Current Progress</span>
-                        <span id="result-progress-text" class="font-mono font-semibold">0%</span>
-                    </div>
-                    <div class="h-3 bg-emerald-100 dark:bg-emerald-900/40 rounded-full overflow-hidden">
-                        <div id="result-progress-bar" 
-                             class="mini-progress h-3 rounded-full transition-all duration-700"
-                             style="width: 0%"></div>
-                    </div>
-                </div>
-
-                <!-- Suggestions -->
-                <div>
-                    <h4 class="font-semibold mb-3 flex items-center gap-x-2 text-sm">
-                        <i class="fa-solid fa-lightbulb text-amber-500"></i>
-                        <span>Smart Recommendations</span>
-                    </h4>
-                    <div id="goal-suggestions" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                        <!-- Populated dynamically -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Quick Calculator Modal -->
-    <div id="calculator-modal" onclick="if (event.target.id === 'calculator-modal') hideCalculatorModal()" 
-         class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center">
-        <div onclick="event.stopImmediatePropagation()" 
-             class="bg-white dark:bg-zinc-900 w-full max-w-xs mx-4 rounded-3xl shadow-2xl border border-zinc-200 dark:border-zinc-700 overflow-hidden">
-            
-            <div class="px-5 pt-5 pb-3 flex items-center justify-between border-b dark:border-zinc-700">
-                <div class="font-semibold flex items-center gap-x-2">
-                    <i class="fa-solid fa-calculator text-emerald-600"></i>
-                    <span>Quick Calculator</span>
-                </div>
-                <button onclick="hideCalculatorModal()" class="text-zinc-400 hover:text-zinc-600 w-8 h-8 flex items-center justify-center">
-                    <i class="fa-solid fa-times"></i>
-                </button>
-            </div>
-            
-            <div class="p-5">
-                <!-- Display -->
-                <div class="bg-zinc-900 dark:bg-black text-emerald-400 font-mono text-right text-4xl px-5 py-5 rounded-2xl mb-4 tracking-tighter" id="calc-display">0</div>
-                
-                <!-- Buttons -->
-                <div class="grid grid-cols-4 gap-2">
-                    <button onclick="calcInput('C')" class="col-span-1 py-3.5 text-sm font-semibold bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-2xl active:scale-[0.97]">C</button>
-                    <button onclick="calcInput('±')" class="col-span-1 py-3.5 text-sm font-semibold bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-2xl active:scale-[0.97]">±</button>
-                    <button onclick="calcInput('%')" class="col-span-1 py-3.5 text-sm font-semibold bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-2xl active:scale-[0.97]">%</button>
-                    <button onclick="calcInput('/')" class="col-span-1 py-3.5 text-lg font-semibold bg-orange-100 dark:bg-orange-900/40 text-orange-600 hover:bg-orange-200 dark:hover:bg-orange-900/60 rounded-2xl active:scale-[0.97]">÷</button>
-                    
-                    <button onclick="calcInput('7')" class="py-3.5 text-xl font-medium bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-2xl active:scale-[0.97]">7</button>
-                    <button onclick="calcInput('8')" class="py-3.5 text-xl font-medium bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-2xl active:scale-[0.97]">8</button>
-                    <button onclick="calcInput('9')" class="py-3.5 text-xl font-medium bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-2xl active:scale-[0.97]">9</button>
-                    <button onclick="calcInput('*')" class="py-3.5 text-lg font-semibold bg-orange-100 dark:bg-orange-900/40 text-orange-600 hover:bg-orange-200 dark:hover:bg-orange-900/60 rounded-2xl active:scale-[0.97]">×</button>
-                    
-                    <button onclick="calcInput('4')" class="py-3.5 text-xl font-medium bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-2xl active:scale-[0.97]">4</button>
-                    <button onclick="calcInput('5')" class="py-3.5 text-xl font-medium bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-2xl active:scale-[0.97]">5</button>
-                    <button onclick="calcInput('6')" class="py-3.5 text-xl font-medium bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-2xl active:scale-[0.97]">6</button>
-                    <button onclick="calcInput('-')" class="py-3.5 text-3xl font-light bg-orange-100 dark:bg-orange-900/40 text-orange-600 hover:bg-orange-200 dark:hover:bg-orange-900/60 rounded-2xl active:scale-[0.97]">−</button>
-                    
-                    <button onclick="calcInput('1')" class="py-3.5 text-xl font-medium bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-2xl active:scale-[0.97]">1</button>
-                    <button onclick="calcInput('2')" class="py-3.5 text-xl font-medium bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-2xl active:scale-[0.97]">2</button>
-                    <button onclick="calcInput('3')" class="py-3.5 text-xl font-medium bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-2xl active:scale-[0.97]">3</button>
-                    <button onclick="calcInput('+')" class="py-3.5 text-3xl font-light bg-orange-100 dark:bg-orange-900/40 text-orange-600 hover:bg-orange-200 dark:hover:bg-orange-900/60 rounded-2xl active:scale-[0.97]">+</button>
-                    
-                    <button onclick="calcInput('0')" class="col-span-2 py-3.5 text-xl font-medium bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-2xl active:scale-[0.97]">0</button>
-                    <button onclick="calcInput('.')" class="py-3.5 text-2xl font-medium bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-2xl active:scale-[0.97]">.</button>
-                    <button onclick="calcInput('=')" class="py-3.5 text-2xl font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl active:scale-[0.97]">=</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer class="max-w-screen-2xl mx-auto px-6 py-5 text-center">
-        <p class="text-xs text-zinc-400">FinTrack • Built for financial literacy • Data stored privately on your device</p>
-    </footer>
-
-    <script>
-        // ========================================
-        // FinTrack - Complete Single File Version
-        // All features included
-        // ========================================
-
-        // Tailwind script
-        function initializeTailwind() {
-            document.documentElement.style.setProperty('--accent', '#10b981');
-            
-            tailwind.config = {
-                darkMode: 'class',
-                theme: {
-                    extend: {
-                        fontFamily: {
-                            'display': ['Poppins', 'system-ui', 'sans-serif']
-                        }
-                    }
-                }
-            };
-        }
-
-        // Global state
-        let appData = {
-            startingBalance: 0,
-            expenses: [],
-            goal: {
-                name: "",
-                targetAmount: 0,
-                currency: "ZMW",
-                targetDate: "",
-                currentSaved: 0,
-                incomeSources: [],
-                expenseItems: [],
-                lastCalculated: null
-            }
-        };
-
-        let pieChartInstance = null;
-        let calcDisplayValue = "0";
-        let calcPreviousValue = null;
-        let calcOperator = null;
-        let calcShouldReset = false;
-
-        // ==================== LOCAL STORAGE ====================
-        function saveData() {
-            try {
-                localStorage.setItem('fintrackData', JSON.stringify(appData));
-            } catch (e) {
-                console.warn('Could not save to localStorage');
-            }
-        }
-
-        function loadData() {
-            try {
-                const saved = localStorage.getItem('fintrackData');
-                if (saved) {
-                    const parsed = JSON.parse(saved);
-                    appData = { ...appData, ...parsed };
-                    
-                    if (!appData.goal) {
-                        appData.goal = { name: "", targetAmount: 0, currency: "ZMW", targetDate: "", currentSaved: 0, incomeSources: [], expenseItems: [], lastCalculated: null };
-                    }
-                }
-            } catch (e) {
-                console.warn('Could not load from localStorage');
-            }
-            
-            const today = new Date().toISOString().split('T')[0];
-            const dateInput = document.getElementById('expense-date');
-            if (dateInput) dateInput.value = today;
-        }
-
-        // ==================== DASHBOARD SUMMARY ====================
-        function updateDashboardSummary() {
-            const container = document.getElementById('dashboard-summary');
-            if (!container) return;
-
-            const remaining = calculateCurrentBalance();
-            const monthlyIncome = appData.goal.lastCalculated ? appData.goal.lastCalculated.monthlyIncome : 0;
-            const monthlyExpenses = appData.goal.lastCalculated ? appData.goal.lastCalculated.monthlyExpenses : 0;
-            const monthlySavings = appData.goal.lastCalculated ? appData.goal.lastCalculated.monthlySavings : 0;
-            
-            let progress = 0;
-            let completionText = "—";
-            
-            if (appData.goal.lastCalculated && appData.goal.targetAmount > 0) {
-                progress = appData.goal.lastCalculated.progress || 0;
-                completionText = appData.goal.lastCalculated.completionDate || "—";
-            }
-
-            container.innerHTML = `
-                <div class="metric-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl p-4 flex flex-col justify-between">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-[10px] font-medium tracking-wider text-zinc-500">CURRENT BALANCE</p>
-                            <div class="text-2xl font-bold money text-emerald-600 dark:text-emerald-400 mt-1">${formatCurrency(remaining)}</div>
-                        </div>
-                        <i class="fa-solid fa-wallet text-emerald-500/70 text-xl"></i>
-                    </div>
-                </div>
-                
-                <div class="metric-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl p-4 flex flex-col justify-between">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-[10px] font-medium tracking-wider text-zinc-500">MONTHLY INCOME</p>
-                            <div class="text-2xl font-bold money mt-1">${formatCurrency(monthlyIncome, appData.goal.currency)}</div>
-                        </div>
-                        <i class="fa-solid fa-hand-holding-usd text-emerald-500/70 text-xl"></i>
-                    </div>
-                </div>
-                
-                <div class="metric-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl p-4 flex flex-col justify-between">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-[10px] font-medium tracking-wider text-zinc-500">MONTHLY EXPENSES</p>
-                            <div class="text-2xl font-bold money text-orange-600 mt-1">${formatCurrency(monthlyExpenses, appData.goal.currency)}</div>
-                        </div>
-                        <i class="fa-solid fa-receipt text-orange-500/70 text-xl"></i>
-                    </div>
-                </div>
-                
-                <div class="metric-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl p-4 flex flex-col justify-between">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-[10px] font-medium tracking-wider text-zinc-500">PROJECTED SAVINGS / MO</p>
-                            <div class="text-2xl font-bold money text-emerald-600 mt-1">${formatCurrency(monthlySavings, appData.goal.currency)}</div>
-                        </div>
-                        <i class="fa-solid fa-piggy-bank text-emerald-500/70 text-xl"></i>
-                    </div>
-                </div>
-                
-                <div class="metric-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl p-4 flex flex-col justify-between">
-                    <div>
-                        <p class="text-[10px] font-medium tracking-wider text-zinc-500">GOAL PROGRESS</p>
-                        <div class="flex items-baseline gap-x-2 mt-1">
-                            <span class="text-2xl font-bold">${progress}</span>
-                            <span class="text-xs text-zinc-400">%</span>
-                        </div>
-                    </div>
-                    <div class="mt-2 h-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
-                        <div class="h-1.5 bg-gradient-to-r from-emerald-500 to-emerald-600 transition-all" style="width: ${progress}%"></div>
-                    </div>
-                </div>
-                
-                <div class="metric-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl p-4 flex flex-col justify-between">
-                    <div>
-                        <p class="text-[10px] font-medium tracking-wider text-zinc-500">EST. COMPLETION</p>
-                        <div class="text-lg font-bold text-emerald-700 dark:text-emerald-300 mt-1 tracking-tight">${completionText}</div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function calculateCurrentBalance() {
-            let spent = 0;
-            appData.expenses.forEach(exp => spent += parseFloat(exp.amount) || 0);
-            return Math.max(0, (parseFloat(appData.startingBalance) || 0) - spent);
-        }
-
-        // ==================== EXPENSE TRACKER ====================
-        function renderCashBookTable() {
-            const tbody = document.getElementById('cashbook-tbody');
-            const emptyState = document.getElementById('empty-cashbook');
-            if (!tbody || !emptyState) return;
-
-            tbody.innerHTML = '';
-            
-            if (appData.expenses.length === 0) {
-                emptyState.classList.remove('hidden');
-                return;
-            } else {
-                emptyState.classList.add('hidden');
-            }
-
-            let runningBalance = parseFloat(appData.startingBalance) || 0;
-            const sortedExpenses = [...appData.expenses].sort((a, b) => new Date(a.date) - new Date(b.date));
-
-            sortedExpenses.forEach((expense) => {
-                runningBalance -= parseFloat(expense.amount);
-                
-                const row = document.createElement('tr');
-                row.className = `transaction-row border-b border-zinc-100 dark:border-zinc-800 last:border-none`;
-                
-                const formattedDate = new Date(expense.date).toLocaleDateString('en-GB', { 
-                    day: 'numeric', month: 'short', year: 'numeric' 
-                });
-                
-                row.innerHTML = `
-                    <td class="px-5 py-3.5 text-zinc-600 dark:text-zinc-300 whitespace-nowrap">${formattedDate}</td>
-                    <td class="px-5 py-3.5">
-                        <span class="inline-flex items-center px-3 py-0.5 text-xs font-medium bg-zinc-100 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-200 rounded-full">${expense.category}</span>
-                    </td>
-                    <td class="px-5 py-3.5 text-zinc-600 dark:text-zinc-300 max-w-[180px] truncate">${expense.description || '—'}</td>
-                    <td class="px-5 py-3.5 text-right font-semibold text-red-600 dark:text-red-400 money">- ${formatCurrency(expense.amount)}</td>
-                    <td class="px-5 py-3.5 text-right font-semibold money ${runningBalance >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600'}">${formatCurrency(runningBalance)}</td>
-                    <td class="px-2 py-3.5">
-                        <button onclick="deleteExpense(${expense.id})" 
-                                class="text-red-400 hover:text-red-600 p-1.5 transition-colors">
-                            <i class="fa-solid fa-trash-can fa-sm"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        function addExpense() {
-            const date = document.getElementById('expense-date').value || new Date().toISOString().split('T')[0];
-            const category = document.getElementById('expense-category').value.trim();
-            const description = document.getElementById('expense-description').value.trim();
-            const amount = parseFloat(document.getElementById('expense-amount').value);
-
-            if (!category || !amount || amount <= 0) {
-                alert("Please enter a valid category and amount greater than zero.");
-                return;
-            }
-
-            const newExpense = {
-                id: Date.now(),
-                date: date,
-                category: category,
-                description: description,
-                amount: amount
-            };
-
-            appData.expenses.push(newExpense);
-            saveData();
-            
-            document.getElementById('expense-category').value = '';
-            document.getElementById('expense-description').value = '';
-            document.getElementById('expense-amount').value = '';
-            
-            renderCashBookTable();
-            renderAnalytics();
-            updateDashboardSummary();
-            showToast("Expense added successfully!");
-        }
-
-        function deleteExpense(id) {
-            if (!confirm("Delete this transaction?")) return;
-            
-            appData.expenses = appData.expenses.filter(exp => exp.id !== id);
-            saveData();
-            
-            renderCashBookTable();
-            renderAnalytics();
-            updateDashboardSummary();
-        }
-
-        function updateStartingBalance() {
-            const input = document.getElementById('new-balance-input');
-            if (!input) return;
-            
-            const newBalance = parseFloat(input.value);
-            if (isNaN(newBalance) || newBalance < 0) {
-                alert("Please enter a valid non-negative balance.");
-                return;
-            }
-            
-            appData.startingBalance = newBalance;
-            saveData();
-            input.value = '';
-            
-            renderCashBookTable();
-            renderAnalytics();
-            updateDashboardSummary();
-            showToast("Balance updated successfully!");
-        }
-
-        function clearAllExpenses() {
-            if (!confirm("Clear ALL transactions? This cannot be undone.")) return;
-            
-            appData.expenses = [];
-            saveData();
-            
-            renderCashBookTable();
-            renderAnalytics();
-            updateDashboardSummary();
-        }
-
-        // ==================== ANALYTICS ====================
-        function renderAnalytics() {
-            let totalSpent = 0;
-            let largest = { amount: 0, category: "—" };
-            const categoryTotals = {};
-            
-            appData.expenses.forEach(exp => {
-                const amt = parseFloat(exp.amount) || 0;
-                totalSpent += amt;
-                
-                if (amt > largest.amount) {
-                    largest = { amount: amt, category: exp.category };
-                }
-                
-                if (!categoryTotals[exp.category]) categoryTotals[exp.category] = 0;
-                categoryTotals[exp.category] += amt;
-            });
-            
-            const totalSpentEl = document.getElementById('analytics-total-spent');
-            if (totalSpentEl) totalSpentEl.textContent = formatCurrency(totalSpent);
-            
-            const countEl = document.getElementById('analytics-count');
-            if (countEl) countEl.textContent = appData.expenses.length;
-            
-            const largestEl = document.getElementById('analytics-largest');
-            if (largestEl) largestEl.innerHTML = largest.amount > 0 ? 
-                `${formatCurrency(largest.amount)}<span class="block text-xs font-normal text-zinc-400">${largest.category}</span>` : '—';
-            
-            renderCategoryBreakdown(categoryTotals, totalSpent);
-            renderPieChart(categoryTotals);
-        }
-
-        function renderCategoryBreakdown(categoryTotals, totalSpent) {
-            const container = document.getElementById('category-breakdown');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            if (Object.keys(categoryTotals).length === 0) {
-                container.innerHTML = `<div class="text-center py-6 text-xs text-zinc-400">Add expenses to see breakdown by category.</div>`;
-                return;
-            }
-            
-            const sorted = Object.entries(categoryTotals).sort((a, b) => b[1] - a[1]);
-            
-            sorted.forEach(([category, amount]) => {
-                const percentage = totalSpent > 0 ? Math.round((amount / totalSpent) * 100) : 0;
-                
-                const div = document.createElement('div');
-                div.className = `flex items-center justify-between gap-x-3 text-xs`;
-                div.innerHTML = `
-                    <div class="flex items-center gap-x-2 min-w-0 flex-1">
-                        <span class="font-medium truncate">${category}</span>
-                    </div>
-                    <div class="flex items-center gap-x-3 text-right">
-                        <div class="w-16 bg-zinc-100 dark:bg-zinc-700 h-1.5 rounded-full overflow-hidden">
-                            <div class="category-bar h-1.5 bg-emerald-500" style="width: ${percentage}%"></div>
-                        </div>
-                        <div class="font-mono w-16 text-right">
-                            <span class="font-semibold">${formatCurrency(amount)}</span>
-                            <span class="text-[10px] text-zinc-400 ml-0.5">${percentage}%</span>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function renderPieChart(categoryTotals) {
-            const canvas = document.getElementById('spending-pie-chart');
-            if (!canvas) return;
-            
-            if (pieChartInstance) {
-                pieChartInstance.destroy();
-                pieChartInstance = null;
-            }
-            
-            const labels = Object.keys(categoryTotals);
-            const data = Object.values(categoryTotals);
-            
-            if (labels.length === 0) {
-                const ctx = canvas.getContext('2d');
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = '#64748b30';
-                ctx.font = '13px Inter, system-ui, sans-serif';
-                ctx.textAlign = 'center';
-                ctx.fillText('No data yet', canvas.width / 2, canvas.height / 2);
-                return;
-            }
-            
-            const colors = ['#10b981', '#34d399', '#059669', '#047857', '#166534', '#4ade80', '#86efac'];
-            
-            pieChartInstance = new Chart(canvas, {
-                type: 'pie',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: data,
-                        backgroundColor: colors.slice(0, labels.length),
-                        borderColor: '#fff',
-                        borderWidth: 3,
-                        hoverOffset: 18
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                boxWidth: 10,
-                                padding: 14,
-                                font: { size: 11, family: 'Inter' },
-                                color: document.documentElement.classList.contains('dark') ? '#d1d5db' : '#374151'
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const pct = total > 0 ? Math.round((context.raw / total) * 100) : 0;
-                                    return `${context.label}: ${formatCurrency(context.raw)} (${pct}%)`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // ==================== GOAL PLANNER ====================
-        function addIncomeSource() {
-            const name = document.getElementById('income-name').value.trim();
-            const amount = parseFloat(document.getElementById('income-amount').value);
-            const frequency = document.getElementById('income-frequency').value;
-
-            if (!name || !amount || amount <= 0) {
-                alert("Please enter income name and a valid amount.");
-                return;
-            }
-
-            if (!appData.goal.incomeSources) appData.goal.incomeSources = [];
-            
-            appData.goal.incomeSources.push({
-                id: Date.now(),
-                name: name,
-                amount: amount,
-                frequency: frequency
-            });
-            
-            saveData();
-            renderIncomeList();
-            updateGoalTotals();
-            
-            document.getElementById('income-name').value = '';
-            document.getElementById('income-amount').value = '';
-        }
-
-        function renderIncomeList() {
-            const container = document.getElementById('income-list');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            if (!appData.goal.incomeSources || appData.goal.incomeSources.length === 0) {
-                container.innerHTML = `<div class="text-xs text-center py-4 text-zinc-400 italic">No income sources added yet. Add your salary, side hustle, etc.</div>`;
-                return;
-            }
-            
-            appData.goal.incomeSources.forEach(source => {
-                const monthlyEq = getMonthlyEquivalent(source.amount, source.frequency);
-                
-                const div = document.createElement('div');
-                div.className = `flex items-center justify-between bg-zinc-50 dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 px-4 py-2.5 rounded-2xl text-sm`;
-                div.innerHTML = `
-                    <div class="flex-1 min-w-0">
-                        <div class="font-medium truncate">${source.name}</div>
-                        <div class="text-xs text-zinc-500">${source.frequency} • ${formatCurrency(source.amount, appData.goal.currency)}</div>
-                    </div>
-                    <div class="text-right pr-1">
-                        <div class="text-xs font-mono text-emerald-600">~${formatCurrency(monthlyEq, appData.goal.currency)}/mo</div>
-                    </div>
-                    <button onclick="removeIncomeSource(${source.id})" class="ml-3 text-red-400 hover:text-red-600 p-1">
-                        <i class="fa-solid fa-times fa-sm"></i>
-                    </button>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function removeIncomeSource(id) {
-            appData.goal.incomeSources = appData.goal.incomeSources.filter(s => s.id !== id);
-            saveData();
-            renderIncomeList();
-            updateGoalTotals();
-        }
-
-        function addExpenseItem() {
-            const name = document.getElementById('expense-item-name').value.trim();
-            const amount = parseFloat(document.getElementById('expense-item-amount').value);
-
-            if (!name || !amount || amount <= 0) {
-                alert("Please enter expense name and a valid monthly amount.");
-                return;
-            }
-
-            if (!appData.goal.expenseItems) appData.goal.expenseItems = [];
-            
-            appData.goal.expenseItems.push({
-                id: Date.now(),
-                name: name,
-                amount: amount
-            });
-            
-            saveData();
-            renderExpenseItemsList();
-            updateGoalTotals();
-            
-            document.getElementById('expense-item-name').value = '';
-            document.getElementById('expense-item-amount').value = '';
-        }
-
-        function renderExpenseItemsList() {
-            const container = document.getElementById('expense-items-list');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            if (!appData.goal.expenseItems || appData.goal.expenseItems.length === 0) {
-                container.innerHTML = `<div class="text-xs text-center py-4 text-zinc-400 italic">Add your monthly expenses like food, transport, rent, data...</div>`;
-                return;
-            }
-            
-            appData.goal.expenseItems.forEach(item => {
-                const div = document.createElement('div');
-                div.className = `flex items-center justify-between bg-zinc-50 dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 px-4 py-2.5 rounded-2xl text-sm`;
-                div.innerHTML = `
-                    <div class="flex-1 min-w-0">
-                        <div class="font-medium truncate">${item.name}</div>
-                    </div>
-                    <div class="flex items-center gap-x-3">
-                        <div class="font-mono text-right text-orange-600">${formatCurrency(item.amount, appData.goal.currency)}</div>
-                        <button onclick="removeExpenseItem(${item.id})" class="text-red-400 hover:text-red-600 p-1">
-                            <i class="fa-solid fa-times fa-sm"></i>
-                        </button>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function removeExpenseItem(id) {
-            appData.goal.expenseItems = appData.goal.expenseItems.filter(e => e.id !== id);
-            saveData();
-            renderExpenseItemsList();
-            updateGoalTotals();
-        }
-
-        function updateGoalTotals() {
-            let totalMonthlyIncome = 0;
-            if (appData.goal.incomeSources) {
-                appData.goal.incomeSources.forEach(src => {
-                    totalMonthlyIncome += getMonthlyEquivalent(src.amount, src.frequency);
-                });
-            }
-            
-            const incomeEl = document.getElementById('total-monthly-income');
-            if (incomeEl) incomeEl.textContent = `Monthly: ${formatCurrency(totalMonthlyIncome, appData.goal.currency)}`;
-            
-            let totalMonthlyExpenses = 0;
-            if (appData.goal.expenseItems) {
-                appData.goal.expenseItems.forEach(item => {
-                    totalMonthlyExpenses += item.amount;
-                });
-            }
-            
-            const expEl = document.getElementById('total-monthly-expenses');
-            if (expEl) expEl.textContent = `Monthly: ${formatCurrency(totalMonthlyExpenses, appData.goal.currency)}`;
-        }
-
-        function getMonthlyEquivalent(amount, frequency) {
-            const amt = parseFloat(amount) || 0;
-            switch (frequency) {
-                case 'Daily': return amt * 30;
-                case 'Weekly': return amt * 4.345;
-                case 'Monthly': return amt;
-                case 'Yearly': return amt / 12;
-                default: return amt;
-            }
-        }
-
-        function calculateGoalPlan() {
-            const name = document.getElementById('goal-name').value.trim();
-            const targetAmount = parseFloat(document.getElementById('goal-target').value);
-            const currency = document.getElementById('goal-currency').value;
-            const targetDate = document.getElementById('goal-target-date').value;
-            const currentSaved = parseFloat(document.getElementById('goal-current-saved').value) || 0;
-
-            if (!name || !targetAmount || targetAmount <= 0) {
-                alert("Please enter a goal name and a valid target amount.");
-                return;
-            }
-
-            appData.goal.name = name;
-            appData.goal.targetAmount = targetAmount;
-            appData.goal.currency = currency;
-            appData.goal.targetDate = targetDate;
-            appData.goal.currentSaved = currentSaved;
-
-            let totalMonthlyIncome = 0;
-            if (appData.goal.incomeSources && appData.goal.incomeSources.length > 0) {
-                appData.goal.incomeSources.forEach(src => {
-                    totalMonthlyIncome += getMonthlyEquivalent(src.amount, src.frequency);
-                });
-            } else {
-                alert("Please add at least one income source for a realistic plan.");
-                return;
-            }
-
-            let totalMonthlyExpenses = 0;
-            if (appData.goal.expenseItems && appData.goal.expenseItems.length > 0) {
-                appData.goal.expenseItems.forEach(item => {
-                    totalMonthlyExpenses += item.amount;
-                });
-            }
-
-            const monthlySavingsAvailable = Math.max(0, totalMonthlyIncome - totalMonthlyExpenses);
-            const remainingTarget = Math.max(0, targetAmount - currentSaved);
-
-            let monthsNeeded = 0;
-            let completionDate = "—";
-            let requiredMonthlyForDate = null;
-
-            if (monthlySavingsAvailable > 0 && remainingTarget > 0) {
-                monthsNeeded = Math.ceil(remainingTarget / monthlySavingsAvailable);
-                const estDate = new Date();
-                estDate.setMonth(estDate.getMonth() + monthsNeeded);
-                completionDate = estDate.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
-            } else if (remainingTarget > 0) {
-                monthsNeeded = Infinity;
-                completionDate = "Not possible with current savings rate";
-            }
-
-            if (targetDate) {
-                const target = new Date(targetDate);
-                const now = new Date();
-                let monthsToTarget = (target.getFullYear() - now.getFullYear()) * 12 + (target.getMonth() - now.getMonth());
-                if (monthsToTarget < 1) monthsToTarget = 1;
-                requiredMonthlyForDate = remainingTarget / monthsToTarget;
-            }
-
-            const progress = targetAmount > 0 ? Math.min(100, Math.round((currentSaved / targetAmount) * 100)) : 0;
-            const suggestions = generateFinancialSuggestions(monthlySavingsAvailable, remainingTarget, monthsNeeded, totalMonthlyExpenses, totalMonthlyIncome, requiredMonthlyForDate);
-
-            appData.goal.lastCalculated = {
-                monthlyIncome: totalMonthlyIncome,
-                monthlyExpenses: totalMonthlyExpenses,
-                monthlySavings: monthlySavingsAvailable,
-                monthsNeeded: monthsNeeded === Infinity ? "∞" : monthsNeeded,
-                completionDate: completionDate,
-                progress: progress,
-                remainingTarget: remainingTarget,
-                suggestions: suggestions,
-                requiredMonthlyForDate: requiredMonthlyForDate
-            };
-
-            saveData();
-            renderGoalResults();
-            updateDashboardSummary();
-            document.getElementById('goal-results').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        function generateFinancialSuggestions(monthlySavings, remainingTarget, monthsNeeded, totalExpenses, totalIncome, requiredForDate) {
-            const suggestions = [];
-            const currency = appData.goal.currency || 'ZMW';
-
-            if (monthlySavings <= 0) {
-                suggestions.push({
-                    icon: "fa-exclamation-triangle",
-                    color: "amber",
-                    text: "Your expenses exceed income. Reduce spending or add new income sources immediately."
-                });
-            } else if (monthsNeeded > 24) {
-                suggestions.push({
-                    icon: "fa-clock",
-                    color: "amber",
-                    text: `At current rate it will take over 2 years. Consider increasing monthly savings or extending your target date.`
-                });
-            } else if (monthsNeeded > 12) {
-                suggestions.push({
-                    icon: "fa-calendar-alt",
-                    color: "emerald",
-                    text: `Good plan! It will take about ${monthsNeeded} months. Stay consistent.`
-                });
-            } else {
-                suggestions.push({
-                    icon: "fa-check-circle",
-                    color: "emerald",
-                    text: `Excellent! You can reach your goal in ${monthsNeeded} months. Keep it up!`
-                });
-            }
-
-            suggestions.push({
-                icon: "fa-lightbulb",
-                color: "emerald",
-                text: "Review your largest expense categories regularly and look for small savings opportunities."
-            });
-
-            if (requiredForDate && requiredForDate > monthlySavings) {
-                const extra = (requiredForDate - monthlySavings).toFixed(0);
-                suggestions.push({
-                    icon: "fa-rocket",
-                    color: "emerald",
-                    text: `To hit your target date, increase monthly savings by ~${formatCurrency(extra, currency)} (cut non-essentials or add income).`
-                });
-            }
-
-            if (totalExpenses > totalIncome * 0.7) {
-                suggestions.push({
-                    icon: "fa-balance-scale",
-                    color: "amber",
-                    text: "Your expenses are high relative to income. Focus on needs vs wants to free up more for your goal."
-                });
-            }
-
-            return suggestions.slice(0, 4);
-        }
-
-        function renderGoalResults() {
-            const resultsDiv = document.getElementById('goal-results');
-            if (!resultsDiv || !appData.goal.lastCalculated) return;
-
-            resultsDiv.classList.remove('hidden');
-            
-            const data = appData.goal.lastCalculated;
-            const curr = appData.goal.currency || 'ZMW';
-
-            document.getElementById('goal-name-display').textContent = appData.goal.name || "Your Goal";
-            document.getElementById('result-monthly-savings').textContent = formatCurrency(data.monthlySavings, curr);
-            document.getElementById('result-months-needed').textContent = data.monthsNeeded;
-            document.getElementById('result-completion-date').textContent = data.completionDate;
-            document.getElementById('result-remaining-target').textContent = formatCurrency(data.remainingTarget, curr);
-            
-            const progressBar = document.getElementById('result-progress-bar');
-            const progressText = document.getElementById('result-progress-text');
-            if (progressBar && progressText) {
-                progressBar.style.width = `${data.progress}%`;
-                progressText.textContent = `${data.progress}%`;
-            }
-
-            const suggContainer = document.getElementById('goal-suggestions');
-            suggContainer.innerHTML = '';
-            
-            data.suggestions.forEach(sugg => {
-                const card = document.createElement('div');
-                card.className = `suggestion-card flex gap-x-3 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 p-3.5 rounded-2xl`;
-                card.innerHTML = `
-                    <div class="mt-0.5">
-                        <i class="fa-solid ${sugg.icon} text-${sugg.color}-500 text-lg"></i>
-                    </div>
-                    <div class="text-xs leading-snug text-zinc-600 dark:text-zinc-300">${sugg.text}</div>
-                `;
-                suggContainer.appendChild(card);
-            });
-        }
-
-        function resetGoalPlan() {
-            if (!confirm("Clear the current goal calculation and results?")) return;
-            
-            appData.goal.lastCalculated = null;
-            saveData();
-            
-            document.getElementById('goal-results').classList.add('hidden');
-            updateDashboardSummary();
-        }
-
-        function updateGoalCurrencyDisplay() {
-            const newCurrency = document.getElementById('goal-currency').value;
-            appData.goal.currency = newCurrency;
-            saveData();
-            
-            renderIncomeList();
-            renderExpenseItemsList();
-            updateGoalTotals();
-            
-            if (appData.goal.lastCalculated) {
-                renderGoalResults();
-            }
-        }
-
-        // ==================== HELPER FUNCTIONS ====================
-        function formatCurrency(amount, currency = "ZMW") {
-            const num = parseFloat(amount) || 0;
-            const symbol = currency === "USD" ? "$" : "ZMW ";
-            return symbol + num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        }
-
-        function showToast(message) {
-            const toast = document.createElement('div');
-            toast.className = `fixed bottom-5 left-1/2 -translate-x-1/2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 px-6 py-3 rounded-2xl shadow-xl text-sm flex items-center gap-x-2 z-[200]`;
-            toast.innerHTML = `
-                <i class="fa-solid fa-check-circle text-emerald-400"></i>
-                <span>${message}</span>
-            `;
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.style.transition = 'all 0.3s ease';
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 200);
-            }, 2200);
-        }
-
-        function switchTab(tab) {
-            const expenseView = document.getElementById('expense-view');
-            const goalView = document.getElementById('goal-view');
-            const tabExpense = document.getElementById('tab-expense');
-            const tabGoal = document.getElementById('tab-goal');
-
-            if (tab === 'expense') {
-                expenseView.classList.remove('hidden');
-                goalView.classList.add('hidden');
-                
-                tabExpense.classList.add('active', 'text-emerald-700', 'dark:text-emerald-400');
-                tabExpense.classList.remove('text-zinc-600', 'dark:text-zinc-300');
-                
-                tabGoal.classList.remove('active', 'text-emerald-700', 'dark:text-emerald-400');
-                tabGoal.classList.add('text-zinc-600', 'dark:text-zinc-300');
-            } else {
-                expenseView.classList.add('hidden');
-                goalView.classList.remove('hidden');
-                
-                tabGoal.classList.add('active', 'text-emerald-700', 'dark:text-emerald-400');
-                tabGoal.classList.remove('text-zinc-600', 'dark:text-zinc-300');
-                
-                tabExpense.classList.remove('active', 'text-emerald-700', 'dark:text-emerald-400');
-                tabExpense.classList.add('text-zinc-600', 'dark:text-zinc-300');
-            }
-        }
-
-        // ==================== DARK MODE ====================
-        function toggleDarkMode() {
-            const html = document.documentElement;
-            html.classList.toggle('dark');
-            
-            const icon = document.getElementById('theme-icon');
-            if (html.classList.contains('dark')) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-                localStorage.setItem('fintrackTheme', 'dark');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-                localStorage.setItem('fintrackTheme', 'light');
-            }
-            
-            setTimeout(() => {
-                if (document.getElementById('goal-view').classList.contains('hidden')) {
-                    renderAnalytics();
-                }
-            }, 150);
-        }
-
-        function initializeTheme() {
-            const savedTheme = localStorage.getItem('fintrackTheme');
-            const html = document.documentElement;
-            const icon = document.getElementById('theme-icon');
-            
-            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                html.classList.add('dark');
-                if (icon) {
-                    icon.classList.remove('fa-moon');
-                    icon.classList.add('fa-sun');
-                }
-            } else {
-                if (icon) {
-                    icon.classList.add('fa-moon');
-                    icon.classList.remove('fa-sun');
-                }
-            }
-        }
-
-        // ==================== QUICK CALCULATOR ====================
-        function showCalculatorModal() {
-            const modal = document.getElementById('calculator-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            
-            calcDisplayValue = "0";
-            calcPreviousValue = null;
-            calcOperator = null;
-            calcShouldReset = false;
-            updateCalcDisplay();
-        }
-
-        function hideCalculatorModal() {
-            const modal = document.getElementById('calculator-modal');
-            modal.classList.remove('flex');
-            modal.classList.add('hidden');
-        }
-
-        function updateCalcDisplay() {
-            const display = document.getElementById('calc-display');
-            if (display) display.textContent = calcDisplayValue;
-        }
-
-        function calcInput(val) {
-            const display = document.getElementById('calc-display');
-            
-            if (val === 'C') {
-                calcDisplayValue = "0";
-                calcPreviousValue = null;
-                calcOperator = null;
-                calcShouldReset = false;
-            } 
-            else if (val === '±') {
-                if (calcDisplayValue !== "0") {
-                    calcDisplayValue = (parseFloat(calcDisplayValue) * -1).toString();
-                }
-            } 
-            else if (val === '%') {
-                calcDisplayValue = (parseFloat(calcDisplayValue) / 100).toString();
-            } 
-            else if (['+', '-', '*', '/'].includes(val)) {
-                if (calcPreviousValue !== null && calcOperator && !calcShouldReset) {
-                    calculateResult();
-                }
-                calcPreviousValue = parseFloat(calcDisplayValue);
-                calcOperator = val;
-                calcShouldReset = true;
-            } 
-            else if (val === '=') {
-                calculateResult();
-                calcOperator = null;
-                calcShouldReset = true;
-            } 
-            else if (val === '.') {
-                if (!calcDisplayValue.includes('.')) {
-                    calcDisplayValue += '.';
-                }
-            } 
-            else {
-                if (calcShouldReset) {
-                    calcDisplayValue = val;
-                    calcShouldReset = false;
-                } else {
-                    calcDisplayValue = calcDisplayValue === "0" ? val : calcDisplayValue + val;
-                }
-            }
-            
-            updateCalcDisplay();
-        }
-
-        function calculateResult() {
-            if (calcPreviousValue === null || !calcOperator) return;
-            
-            const current = parseFloat(calcDisplayValue);
-            let result = 0;
-            
-            switch (calcOperator) {
-                case '+': result = calcPreviousValue + current; break;
-                case '-': result = calcPreviousValue - current; break;
-                case '*': result = calcPreviousValue * current; break;
-                case '/': result = current !== 0 ? calcPreviousValue / current : 0; break;
-            }
-            
-            calcDisplayValue = result.toString();
-            calcPreviousValue = result;
-            updateCalcDisplay();
-        }
-
-        // ==================== INITIALIZATION ====================
-        function initializeApp() {
-            initializeTailwind();
-            loadData();
-            initializeTheme();
-            
-            const dateInput = document.getElementById('expense-date');
-            if (dateInput && !dateInput.value) {
-                dateInput.value = new Date().toISOString().split('T')[0];
-            }
-            
-            renderCashBookTable();
-            renderAnalytics();
-            renderIncomeList();
-            renderExpenseItemsList();
-            updateGoalTotals();
-            updateDashboardSummary();
-            
-            if (appData.goal.lastCalculated) {
-                document.getElementById('goal-results').classList.remove('hidden');
-                renderGoalResults();
-            }
-            
-            switchTab('expense');
-            
-            // Keyboard support for calculator
-            document.addEventListener('keydown', function(e) {
-                const modal = document.getElementById('calculator-modal');
-                if (modal && !modal.classList.contains('hidden')) {
-                    if (e.key >= '0' && e.key <= '9') calcInput(e.key);
-                    else if (e.key === '.') calcInput('.');
-                    else if (e.key === '+') calcInput('+');
-                    else if (e.key === '-') calcInput('-');
-                    else if (e.key === '*') calcInput('*');
-                    else if (e.key === '/') calcInput('/');
-                    else if (e.key === 'Enter' || e.key === '=') { e.preventDefault(); calcInput('='); }
-                    else if (e.key.toLowerCase() === 'c' || e.key === 'Escape') calcInput('C');
-                }
-            });
-            
-            // Dashboard cards clickable
-            const summaryContainer = document.getElementById('dashboard-summary');
-            if (summaryContainer) {
-                summaryContainer.addEventListener('click', function(e) {
-                    const card = e.target.closest('.metric-card');
-                    if (!card) return;
-                    
-                    const text = card.textContent.toLowerCase();
-                    if (text.includes('balance') || text.includes('spent') || text.includes('transaction')) {
-                        switchTab('expense');
-                    } else if (text.includes('income') || text.includes('expense') || text.includes('savings') || text.includes('goal') || text.includes('completion')) {
-                        switchTab('goal');
-                    }
-                });
-            }
-            
-            // Welcome toast
-            if (!localStorage.getItem('fintrackWelcomeShown')) {
-                setTimeout(() => {
-                    showToast("Welcome to FinTrack! Your data is saved automatically.");
-                    localStorage.setItem('fintrackWelcomeShown', 'true');
-                }, 1800);
-            }
-            
-            // Register Service Worker
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('[ServiceWorker] Registered'))
-                    .catch(err => console.log('[ServiceWorker] Registration failed:', err));
-            }
-            
-            console.log('%c[FinTrack] Complete single-file app initialized successfully.', 'color:#10b981');
-        }
-
-        // Boot the application
-        window.onload = initializeApp;
-    </script>
-</body>
-</html>
+                            <input id="income-name" type="text" placeholder="Income name (e.g. Part-time job)" class="professional-input w-full text-sm bg-white dark
